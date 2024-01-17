@@ -4,7 +4,6 @@ class CreateInvoices < ActiveRecord::Migration[7.0]
       t.references :merchant
       t.references :customer
       t.integer :status
-
       t.timestamps
     end
   end
