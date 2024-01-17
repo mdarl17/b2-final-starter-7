@@ -1,0 +1,12 @@
+<h1>New Coupon Form</h1>
+<%= form_with url: merchant_coupons_path(@merchant.id), data: {turbo: false} do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  <%= f.label :code %>
+  <%= f.text_field :code %>
+  <%= f.label :amount %>
+  <%= f.text_field :amount %>
+  <%= f.label :percent %>
+  <%= f.check_box :percent %>
+  <%= f.submit "Submit" %>
+<% end %>
