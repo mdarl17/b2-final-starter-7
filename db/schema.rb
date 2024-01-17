@@ -19,6 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_17_073534) do
     t.string "code"
     t.integer "amount"
     t.integer "percent"
+    t.integer "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "merchant_id"

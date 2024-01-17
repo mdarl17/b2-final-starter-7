@@ -20,6 +20,12 @@
         <% end %>
       </div>
       <div class="container">
+        <% flash.each do |type, msg| %>
+          <div>
+            <%= msg %>
+          </div>
+        <% end %>
+
         <%= yield %>
       </div>
     </div>
