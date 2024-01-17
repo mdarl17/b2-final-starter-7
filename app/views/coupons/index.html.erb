@@ -1,0 +1,6 @@
+<h1>Coupons for <%= @merchant.name %></h1>
+<% @coupons.each do |coupon| %>
+  <p>Coupon: <%= link_to coupon.name, merchant_coupon_path(@merchant.id, coupon.id) %>&nbsp&nbsp
+    Discount: <%= coupon.percentage_discount %>%
+  </p>
+<% end %>
