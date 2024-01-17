@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
 
   get "/", to: "application#welcome"
-  
+
   resources :merchants, only: [:show] do
     resources :dashboard, only: [:index]
     resources :items, except: [:destroy]
     resources :item_status, only: [:update]
     resources :invoices, only: [:index, :show, :update]
+    resources :coupons, only: [:index, :show]
   end
 
   namespace :admin do
