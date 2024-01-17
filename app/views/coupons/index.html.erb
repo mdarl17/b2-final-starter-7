@@ -1,6 +1,11 @@
 <h1>Coupons for <%= @merchant.name %></h1>
 <% @coupons.each do |coupon| %>
   <p>Coupon: <%= link_to coupon.name, merchant_coupon_path(@merchant.id, coupon.id) %>&nbsp&nbsp
-    Discount: <%= coupon.percentage_discount %>%
+    <% if coupon.percent == "checked" %>
+      Discount Amount: <%= coupon.amount %>%
+    <% else %>
+      Discount Amount: $<%= coupon.amount %>
+    <% end %>
   </p>
 <% end %>
+<%= link_to "Create a new coupon", new_merchant_coupon_path(@merchant.id) %>
