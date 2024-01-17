@@ -5,7 +5,8 @@ class CreateCoupons < ActiveRecord::Migration[7.0]
       t.string :code
       t.integer :amount
       t.integer :percent
-
+      t.integer :active
+      
       t.timestamps
 
       t.index :code, unique: true
