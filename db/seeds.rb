@@ -6,4 +6,17 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-Rake::Task["csv_load:all"].invoke
+# Rake::Task["csv_load:all"].invoke
+
+Coupon.destroy_all 
+Merchant.destroy_all
+
+@m1 = Merchant.create!(name: "Merchant 1")
+@m2 = Merchant.create!(name: "Merchant 2")
+@m3 = Merchant.create!(name: "Merchant 3", status: 1)
+@m1_bogo = Coupon.create!(name: "Buy one item, get that same item free!", code: "M1_BOGO", percentage_discount: 25, merchant_id: @m1.id)
+@m1_half = Coupon.create!(name: "50% off any item", code: "M1_HALF_OFF1", percentage_discount: 50, merchant_id: @m1.id)
+@m1_buy3 = Coupon.create!(name: "Buy three items of any kind, get the fourth free!", code: "M1_BUY3_4FREE", percentage_discount: 25, merchant_id: @m1.id)
+@m2_10 = Coupon.create!(name: "10% off any item!", code: "M2_10OFF", percentage_discount: 10, merchant_id: @m2.id)
+@m3_2024 = Coupon.create!(name: "24% off any five items (remaining items at regular price).", code: "M3_24", percentage_discount: 24, merchant_id: @m3.id)
+@m3_blowout = Coupon.create!(name: "50% off entire order!", code: "M3_TOTAL50", percentage_discount: 50, merchant_id: @m3.id)
