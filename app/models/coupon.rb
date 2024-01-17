@@ -3,7 +3,7 @@ class Coupon < ApplicationRecord
   has_many :invoices
   # has_many :invoice_items, through: :invoices
 
-  enum percent: { "unchecked": 0, "checked": 1 }
+  enum discount_type: { "dollar": 0, "percent": 1 }
   enum active: { "inactive": 0, "active": 1 }
 
   def usage_count
