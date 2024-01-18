@@ -18,7 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_17_234324) do
     t.string "name"
     t.string "code"
     t.integer "amount"
-    t.integer "type"
+    t.integer "discount_type"
     t.integer "active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
