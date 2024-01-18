@@ -3,4 +3,5 @@
 <p>Discount: <%= @coupon.amount  %></p>
 <p>Status: <%= @coupon.status %></p>
 <p>Coupon Usage Count: <%= @coupon.usage_count %></p>
-<p><%= button_to "Toggle Activation", merchant_coupon_path(@merchant.id, @coupon.id), params: { act_deact_button: "clicked" }, method: :patch %></p>
+<p><%= button_to "Deactivate Coupon", merchant_coupon_path(@merchant.id, @coupon.id), params: { act_deact_button: "clicked" }, method: :patch %></p>
+<p><%= button_to "Activate Coupon", merchant_coupon_path(@merchant.id, @coupon.id), params: { act_deact_button: "clicked" }, method: :patch %></p>
