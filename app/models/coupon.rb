@@ -4,11 +4,15 @@ class Coupon < ApplicationRecord
   has_many :transactions, through: :invoices
 
   enum discount_type: { "dollar": 0, "percent": 1 }
-  enum active: { "inactive": 0, "active": 1 }
+  enum status: ["inactive", "active"]
 
   def usage_count
     self.transactions
       .where("transactions.result > 0")
       .count
+  end
+
+  def pending_invoices?
+    self.invoices.where("invoices.status = 1").count > 0
   end
 end

@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     resources :coupons, only: [:index, :show, :new, :create]
   end
 
+  patch "/merchants/:merchant_id/coupons/:id", to: "coupons#update"
+
   namespace :admin do
     resources :dashboard, only: [:index]
     resources :merchants, except: [:destroy]

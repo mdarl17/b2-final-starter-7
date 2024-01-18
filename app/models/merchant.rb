@@ -64,6 +64,6 @@ class Merchant < ApplicationRecord
   end
 
   def five_active_coupons?
-    self.coupons.select("COUNT(coupons.id) AS active_count").joins(:merchant).where("coupons.active = ?", 1).group("merchants.id")[0][:active_count] == 5
+    self.coupons.where(status: 1).count == 5
   end
 end

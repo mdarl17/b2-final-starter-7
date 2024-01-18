@@ -19,7 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_17_234324) do
     t.string "code"
     t.integer "amount"
     t.integer "discount_type"
-    t.integer "active"
+    t.integer "status", default: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "merchant_id"
