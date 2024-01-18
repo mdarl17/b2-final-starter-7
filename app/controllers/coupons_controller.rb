@@ -6,7 +6,7 @@ class CouponsController < ApplicationController
 
   def show 
     @merchant = Merchant.find(coupon_params[:merchant_id])
-    @coupon = @merchant.coupons.find_by(coupon_params[:code])
+    @coupon = @merchant.coupons.find(coupon_params[:id])
   end
 
   def new 
@@ -35,6 +35,10 @@ class CouponsController < ApplicationController
           flash[:alert] = "This coupon has pending invoices and can not be deactivated until all pending invoices are closed."
         elsif @coupon.update(status: "inactive")
           flash[:message] = "#{@coupon.code} has been deactivated"
+        end
+      elsif @coupon.status == "inactive"
+        if @coupon.update(status: "active")
+        flash[:alert] = "#{@coupon.code} has been reactivated"
         end
       end
     end
