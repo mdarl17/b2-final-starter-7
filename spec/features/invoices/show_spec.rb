@@ -2,8 +2,19 @@ require "rails_helper"
 
 RSpec.describe "invoices show" do
   before :each do
+
     @merchant1 = Merchant.create!(name: "Hair Care")
     @merchant2 = Merchant.create!(name: "Jewelry")
+
+    @m1_05 = Coupon.create!(name: "5% off any order", code: "M1_05", amount: 5, discount_type: 1, status: "inactive", merchant_id: @merchant1.id)
+    @m1_10 = Coupon.create!(name: "10% off any order", code: "M1_10", amount: 10, discount_type: 1, status: "inactive", merchant_id: @merchant1.id)
+    @m1_15 = Coupon.create!(name: "15% off any order", code: "M1_15", amount: 15, discount_type: 1, status: "active", merchant_id: @merchant1.id)
+    @m1_20 = Coupon.create!(name: "$20 off any order", code: "M1_20", amount: 20, discount_type: 0, status: "active",merchant_id: @merchant1.id)
+    @m1_25 = Coupon.create!(name: "$25 off any order", code: "M1_25", amount: 25, discount_type: 0, status: "active",merchant_id: @merchant1.id)
+    @m1_30 = Coupon.create!(name: "30% off any order", code: "M1_30", amount: 30, discount_type: 1, status: "active",merchant_id: @merchant1.id)
+    @m1_35 = Coupon.create!(name: "35% off any order", code: "M1_35", amount: 35, discount_type: 1, status: "active",merchant_id: @merchant1.id)
+    @m1_40 = Coupon.create!(name: "40% off any order", code: "M1_40", amount: 40, discount_type: 1, status: "inactive",merchant_id: @merchant1.id)
+    @m1_50 = Coupon.create!(name: "$50 off any order", code: "M1_50", amount: 50, discount_type: 0, status: "inactive",merchant_id: @merchant1.id)
 
     @item_1 = Item.create!(name: "Shampoo", description: "This washes your hair", unit_price: 10, merchant_id: @merchant1.id, status: 1)
     @item_2 = Item.create!(name: "Conditioner", description: "This makes your hair shiny", unit_price: 8, merchant_id: @merchant1.id)
@@ -81,7 +92,7 @@ RSpec.describe "invoices show" do
 
   it "shows the total revenue for this invoice" do
     visit merchant_invoice_path(@merchant1, @invoice_1)
-
+    save_and_open_page
     expect(page).to have_content(@invoice_1.total_revenue)
   end
 
@@ -98,6 +109,12 @@ RSpec.describe "invoices show" do
     within("#current-invoice-status") do
       expect(page).to_not have_content("in progress")
     end
+  end
+
+  it "displays a subtotal of the invoice without any discounts applied" do 
+    visit merchant_invoice_path(@merchant1.id, @invoice_1.id)
+     expect(page).to have_content(@invoice_1.total_revenue)
+    expect(page).to have_content(@invoice_1.discount_revenue)
   end
 
 end

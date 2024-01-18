@@ -4,7 +4,7 @@ class Coupon < ApplicationRecord
   has_many :transactions, through: :invoices
 
   enum discount_type: { "dollar": 0, "percent": 1 }
-  enum status: ["inactive", "active"]
+  enum status: ["inactive", "active"]\
 
   def self.by_status(stat)
     self.where(status: stat)
