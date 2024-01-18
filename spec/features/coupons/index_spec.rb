@@ -13,9 +13,6 @@ RSpec.describe "merchant coupons index", type: :feature do
     @m1_quarter = Coupon.create!(name: "Buy three items of any kind, get the fourth free!", code: "M1_QRT_OFF", amount: 25, discount_type: 1, status: "active",merchant_id: @m1.id)
     @m1_fiver = Coupon.create!(name: "Five dollars off any order!", code: "M1_FIVER", amount: 5, discount_type: 0, status: "inactive",merchant_id: @m1.id)
     @m1_hamilton = Coupon.create!(name: "$10 off any order!", code: "M1_HAMILTON", amount: 10, discount_type: 0, status: "inactive",merchant_id: @m1.id)
-    @m2_10 = Coupon.create!(name: "$10 off any item!", code: "M2_10OFF", amount: 10, discount_type: 0, status: "inactive",merchant_id: @m2.id)
-    @m3_2024 = Coupon.create!(name: "$24 off an order of $100 or more", code: "M3_24", amount: 24, discount_type: 0, status: "inactive", merchant_id: @m3.id)
-    @m3_blowout = Coupon.create!(name: "50% off entire order!", code: "M3_TOTAL50", amount: 50, discount_type: 1, status: "active", merchant_id: @m3.id)
   end
 
   it "has a link to view all of a merchant's coupons" do 
@@ -58,18 +55,18 @@ RSpec.describe "merchant coupons index", type: :feature do
 
       # de-activate the merchant's first coupon in the list (giving them 4 total 'active' coupons)
 
-      @m1.coupons.first.update!(status: "inactive")
-
+      @m1.coupons.by_status("active").first.update!(status: "inactive")
+      
       click_link("Create a new coupon")
-
+      
       fill_in(:name, with: "FOMO $40 off deal")
       fill_in(:code, with: "M1_FOMO40")
       fill_in(:amount, with: 40)
       check(:status)
       check(:percent)
-
+      
       click_button "Submit"
-
+      
       # new coupon saves since, now, it no longer breaks the `5 active coupons/merchant` threshold
       expect(current_path).to eq(merchant_coupons_path(@m1.id))
       visit merchant_coupons_path(@m1.id)
