@@ -4,7 +4,7 @@ RSpec.describe "merchant coupon show page" do
   before(:each) do 
     @m3 = Merchant.create!(name: "Merchant 3", status: 1)
 
-    @m1_5AND5 = Coupon.create!(name: "$5 off an order of $10 or more", code: "M1_5AND5", amount: 5, percent: 0, active: 1, merchant_id: @m3.id)
+    @m1_5AND5 = Coupon.create!(name: "$5 off an order of $10 or more", code: "M1_5AND5", amount: 5, discount_type: 0, active: 1, merchant_id: @m3.id)
 
     @customer_1 = Customer.create!(first_name: "Joey", last_name: "Smith")
     @customer_2 = Customer.create!(first_name: "Cecilia", last_name: "Jones")
