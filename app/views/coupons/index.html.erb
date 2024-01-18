@@ -1,11 +1,25 @@
 <h1>Coupons for <%= @merchant.name %></h1>
-<% @coupons.each do |coupon| %>
-  <p>Coupon: <%= link_to coupon.name, merchant_coupon_path(@merchant.id, coupon.id) %>&nbsp&nbsp
-    <% if coupon.discount_type == "percent" %>
-      Discount Amount: <%= coupon.amount %>%
-    <% else %>
-      Discount Amount: $<%= coupon.amount %>
-    <% end %>
-  </p>
-<% end %>
+<section class="active-coupons">
+  <% @coupons.by_status("active").each do |coupon| %>
+    <p>Coupon: <%= link_to coupon.name, merchant_coupon_path(@merchant.id, coupon.id) %>&nbsp&nbsp
+      <% if coupon.discount_type == "percent" %>
+        Discount Amount: <%= coupon.amount %>%
+      <% else %>
+        Discount Amount: $<%= coupon.amount %>
+      <% end %>
+    </p>
+  <% end %>
+</section>
+
+<section class="inactive-coupons">
+  <% @coupons.by_status("inactive").each do |coupon| %>
+    <p>Coupon: <%= link_to coupon.name, merchant_coupon_path(@merchant.id, coupon.id) %>&nbsp&nbsp
+      <% if coupon.discount_type == "percent" %>
+        Discount Amount: <%= coupon.amount %>%
+      <% else %>
+        Discount Amount: $<%= coupon.amount %>
+      <% end %>
+    </p>
+  <% end %>
+</section>
 <%= link_to "Create a new coupon", new_merchant_coupon_path(@merchant.id) %>
