@@ -4,7 +4,8 @@ RSpec.describe "merchant coupon show page" do
   before(:each) do 
     @m3 = Merchant.create!(name: "Merchant 3", status: 1)
 
-    @m1_5AND5 = Coupon.create!(name: "$5 off an order of $10 or more", code: "M1_5AND5", amount: 5, discount_type: 0, status: 1, merchant_id: @m3.id)
+    @m1_5AND5 = Coupon.create!(name: "$5 off an order of $10 or more", code: "M1_5AND5", amount: 5, discount_type: 0, status: "active", merchant_id: @m3.id)
+    @m1_25OFF = Coupon.create!(name: "25% off any item we sell", code: "M1_25OFF", amount: 25, discount_type: 1, status: "inactive", merchant_id: @m3.id)
 
     @customer_1 = Customer.create!(first_name: "Joey", last_name: "Smith")
     @customer_2 = Customer.create!(first_name: "Cecilia", last_name: "Jones")
@@ -45,10 +46,10 @@ RSpec.describe "merchant coupon show page" do
 
   it "has a button to deactivate coupon statuses if they are currently active" do 
     visit merchant_coupon_path(@m3.id, @m1_5AND5.id)
-    expect(page).to have_button("Toggle Activation")
+    expect(page).to have_button("Deactivate Coupon")
     expect(page).to have_content("Status: active")
 
-    click_button "Toggle Activation"
+    click_button "Deactivate Coupon"
 
     expect(current_path).to eq(merchant_coupon_path(@m3.id, @m1_5AND5.id))
     expect(page).to have_content("Status: inactive")
@@ -59,22 +60,27 @@ RSpec.describe "merchant coupon show page" do
     # update an invoice's status to pending to test 'pending invoices' sad path
     @invoice_3.update!(status: 1)
     
-    click_button "Toggle Activation"
+    click_button "Deactivate Coupon"
 
     expect(current_path).to eq(merchant_coupon_path(@m3.id, @m1_5AND5.id))
     expect(page).to have_content("This coupon has pending invoices and can not be deactivated until all pending invoices are closed.")
     expect(page).to have_content("Status: active")
   end
 
+  it "has a button that activates a coupon's status" do 
+    # start with deactivated coupon on coupon show page
+    visit merchant_coupon_path(@m3.id, @m1_25OFF.id)
 
-#   As a merchant 
-# When I visit one of my active coupon's show pages
-# I see a button to deactivate that coupon
-# When I click that buttonx
-# I'm taken back to the coupon show page 
-# And I can see that its status is now listed as 'inactive'.
+    expect(page).to have_content("Status: inactive")
+    expect(page).to have_button("Activate Coupon")
+    expect(page).to have_content("Code: M1_25OFF")
 
-# * Sad Paths to consider: 
-# 1. A coupon cannot be deactivated if there are any pending invoices with that coupon.
+    click_button "Activate Coupon"
+
+    expect(current_path).to eq(merchant_coupon_path(@m3.id, @m1_25OFF.id))
+
+    expect(page).to have_content("Status: active")
+    expect(page).to have_content("M1_25OFF has been reactivated")
+  end
 
 end
